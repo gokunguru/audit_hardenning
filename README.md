@@ -1,20 +1,37 @@
 # Audit & Hardening Lab
-Audit de sécurité Linux automatisé et laboratoire de durcissement avec Docker, Ansible et Lynis.
+ 
+Audit de sécurité Linux automatisé et laboratoire de durcissement avec Docker, Ansible, Lynis et GitHub Actions.
  
 ---
  
 ## Présentation du projet
  
-Ce projet illustre un workflow complet de durcissement d'infrastructure :
+Ce projet illustre un workflow complet de sécurisation d'infrastructure Linux dans une approche DevSecOps moderne.
  
-1. Déploiement d'un environnement Linux vulnérable
-2. Audit de sécurité initial
-3. Durcissement automatisé avec Ansible
-4. Validation des contrôles de sécurité appliqués
-5. Scoring de sécurité via Lynis
-6. Génération de rapports HTML
-L'objectif est de simuler une approche DevSecOps / sécurité système réelle en appliquant les principes d'Infrastructure-as-Code.
+L'objectif est de simuler un environnement de sécurité système réaliste en automatisant :
  
+- l'audit d'un serveur Linux vulnérable,
+- l'application de mesures de hardening,
+- la validation des contrôles de sécurité,
+- la génération de rapports,
+- ainsi que l'intégration CI/CD.
+Le projet applique les principes d'Infrastructure-as-Code (IaC) et d'automatisation de sécurité.
+ 
+---
+ 
+## Fonctionnalités principales
+ 
+- Déploiement automatisé d'un laboratoire Linux vulnérable
+- Audit système Linux automatisé
+- Hardening SSH
+- Configuration automatique du pare-feu UFW
+- Désactivation des services vulnérables
+- Mise en place de règles d'audit système
+- Intégration Fail2ban
+- Audit de sécurité avec Lynis
+- Génération de rapports HTML et JSON
+- Pipeline GitHub Actions DevSecOps
+- Publication automatique du rapport HTML via GitHub Pages
 ---
  
 ## Technologies utilisées
@@ -23,19 +40,45 @@ L'objectif est de simuler une approche DevSecOps / sécurité système réelle e
 - Docker Compose
 - Ansible
 - Python
+- GitHub Actions
 - Lynis
 - UFW
 - auditd
+- Fail2ban
 ---
  
 ## Architecture
  
-| Composant           | Rôle                                    |
-|---------------------|-----------------------------------------|
-| linux-target        | Serveur Ubuntu vulnérable               |
-| ansible-controller  | Exécute les playbooks Ansible           |
-| reports/            | Stocke les rapports générés             |
-| scripts/            | Scripts d'automatisation Python         |
+| Composant          | Rôle                                  |
+|--------------------|---------------------------------------|
+| linux-target       | Serveur Ubuntu vulnérable             |
+| ansible-controller | Contrôleur Ansible                    |
+| reports/           | Stockage des rapports générés         |
+| scripts/           | Scripts Python d'automatisation       |
+| GitHub Actions     | Pipeline CI/CD DevSecOps              |
+| GitHub Pages       | Publication du rapport HTML           |
+ 
+---
+ 
+## Architecture DevSecOps
+ 
+```text
+Docker
+  ↓
+Ansible
+  ↓
+Linux Hardening
+  ↓
+Lynis Audit
+  ↓
+Validation
+  ↓
+HTML / JSON Reporting
+  ↓
+GitHub Actions CI/CD
+  ↓
+GitHub Pages (Publication du rapport)
+```
  
 ---
  
@@ -53,6 +96,9 @@ L'objectif est de simuler une approche DevSecOps / sécurité système réelle e
 - Suppression des services vulnérables
 - Telnet supprimé
 - vsftpd désactivé
+### Protection contre les intrusions
+- Fail2ban installé et configuré
+- Bannissement automatique des IP malveillantes
 ### Audit système
 - auditd installé
 - Règles de surveillance ajoutées pour :
@@ -65,6 +111,9 @@ L'objectif est de simuler une approche DevSecOps / sécurité système réelle e
  
 ```text
 audit-hardening-lab/
+├── .github/
+│   └── workflows/
+│       └── devsecops.yml
 ├── docker-compose.yml
 ├── inventory/
 ├── playbooks/
@@ -117,21 +166,34 @@ python3 scripts/build_report.py
  
 ---
  
+## Pipeline CI/CD GitHub Actions
+ 
+Le pipeline DevSecOps s'exécute automatiquement à chaque push sur la branche `main` :
+ 
+1. Démarrage de l'environnement Docker
+2. Exécution de l'audit initial
+3. Application du hardening
+4. Validation des contrôles
+5. Génération des rapports HTML et JSON
+6. Publication automatique sur GitHub Pages
+---
+ 
 ## Résultats de sécurité
  
-| Contrôle de sécurité      | Avant       | Après     |
-|---------------------------|-------------|-----------|
-| Connexion root SSH        | Vulnérable  | Sécurisé  |
-| Authentification par MDP  | Activée     | Désactivée|
-| Pare-feu                  | Inactif     | Actif     |
-| Règles d'audit            | Absentes    | Configurées|
+| Contrôle de sécurité     | Avant       | Après      |
+|--------------------------|-------------|------------|
+| Connexion root SSH       | Vulnérable  | Sécurisé   |
+| Authentification par MDP | Activée     | Désactivée |
+| Pare-feu                 | Inactif     | Actif      |
+| Fail2ban                 | Absent      | Configuré  |
+| Règles d'audit           | Absentes    | Configurées|
  
 ### Score Lynis
  
-| État                  | Score |
-|-----------------------|-------|
-| Avant durcissement    | 0     |
-| Après durcissement    | 54    |
+| État               | Score |
+|--------------------|-------|
+| Avant durcissement | 0     |
+| Après durcissement | 54    |
  
 ---
  
@@ -149,6 +211,8 @@ Les rapports sont stockés dans :
 reports/final/
 ```
  
+Le rapport HTML est publié automatiquement via **GitHub Pages**.
+ 
 ---
  
 ## Limitations connues
@@ -161,8 +225,6 @@ reports/final/
  
 ## Améliorations futures
  
-- CI/CD avec GitHub Actions
-- Intégration de Fail2ban
 - Contrôles de conformité OpenSCAP
 - Tableau de bord Grafana / Loki
 - Inventaire multi-hôtes
@@ -179,6 +241,7 @@ Ce projet a été conçu pour renforcer les compétences pratiques en :
 - Automatisation Ansible
 - Audit de sécurité
 - Infrastructure-as-Code
+- Intégration continue (CI/CD)
 ---
  
 ## Auteur
