@@ -1,0 +1,14 @@
+---
+- name: Stop vulnerable services
+  systemd:
+    name: "{{ item }}"
+    state: stopped
+    enabled: false
+  loop:
+    - vsftpd
+  ignore_errors: true
+
+- name: Remove telnet package
+  apt:
+    name: telnet
+    state: absent

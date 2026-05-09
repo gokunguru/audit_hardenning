@@ -1,0 +1,49 @@
+---
+- name: Validate hardening
+  hosts: linux
+  gather_facts: false
+
+  tasks:
+
+    - name: Check SSH root login
+      command: grep PermitRootLogin /etc/ssh/sshd_config
+      register: root_login_check
+      changed_when: false
+
+    - name: Check password authentication
+      command: grep PasswordAuthentication /etc/ssh/sshd_config
+      register: password_auth_check
+      changed_when: false
+
+    - name: Check firewall status
+      command: ufw status verbose
+      register: firewall_check
+      changed_when: false
+
+    - name: Check audit rules
+      command: cat /etc/audit/rules.d/hardening.rules
+      register: audit_rules_check
+      changed_when: false
+      ignore_errors: true
+
+    - name: Save validation report
+      copy:
+        content: |
+          === SSH ROOT LOGIN ===
+          {{ root_login_check.stdout }}
+
+          === PASSWORD AUTH ===
+          {{ password_auth_check.stdout }}
+
+          === FIREWALL ===
+          {{ firewall_check.stdout }}
+
+          === AUDIT RULES ===
+          {{ audit_rules_check.stdout }}
+        dest: /tmp/validation_report.txt
+
+    - name: Fetch validation report
+      ansible.builtin.fetch:
+        src: /tmp/validation_report.txt
+        dest: /workspace/reports/after/validation_report.txt
+        flat: true
