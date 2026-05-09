@@ -1,0 +1,8 @@
+#PermitRootLogin prohibit-password
+#MaxAuthTries 6
+#PasswordAuthentication yes
+# PasswordAuthentication.  Depending on your PAM configuration,
+# the setting of "PermitRootLogin without-password".
+# PAM authentication, then enable this but set PasswordAuthentication
+PermitRootLogin yes
+PasswordAuthentication yes

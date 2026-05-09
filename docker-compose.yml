@@ -10,7 +10,7 @@ services:
       /bin/bash -c "
       apt-get update -qq &&
       DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
-      openssh-server telnet vsftpd sudo systemctl &&
+      openssh-server telnet vsftpd sudo systemctl iproute2 &&
       mkdir /var/run/sshd &&
       echo 'root:rootpass' | chpasswd &&
       echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config &&

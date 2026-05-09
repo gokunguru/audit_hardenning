@@ -1,0 +1,87 @@
+---
+- name: Audit Linux initial
+  hosts: linux
+  gather_facts: true
+
+  tasks:
+
+    - name: Get OS version
+      command: cat /etc/os-release
+      register: os_version
+      changed_when: false
+
+    - name: List active services
+      command: systemctl list-units --type=service --state=running
+      register: active_services
+      changed_when: false
+
+    - name: Check listening ports
+      command: ss -tlnp
+      register: open_ports
+      changed_when: false
+
+    - name: Check firewall status
+      command: ufw status
+      register: firewall_status
+      changed_when: false
+      ignore_errors: true
+
+    - name: Check SSH config
+      command: grep -E "PermitRootLogin|PasswordAuthentication|MaxAuthTries" /etc/ssh/sshd_config
+      register: ssh_config
+      changed_when: false
+
+    - name: Save OS version
+      copy:
+        content: "{{ os_version.stdout }}"
+        dest: /tmp/os_version.txt
+
+    - name: Save services
+      copy:
+        content: "{{ active_services.stdout }}"
+        dest: /tmp/services.txt
+
+    - name: Save ports
+      copy:
+        content: "{{ open_ports.stdout }}"
+        dest: /tmp/open_ports.txt
+
+    - name: Save firewall
+      copy:
+        content: "{{ firewall_status.stdout }}"
+        dest: /tmp/firewall.txt
+
+    - name: Save ssh config
+      copy:
+        content: "{{ ssh_config.stdout }}"
+        dest: /tmp/ssh_config.txt
+
+    - name: Fetch OS version
+      fetch:
+        src: /tmp/os_version.txt
+        dest: reports/before/
+        flat: true
+
+    - name: Fetch services
+      fetch:
+        src: /tmp/services.txt
+        dest: reports/before/
+        flat: true
+
+    - name: Fetch ports
+      fetch:
+        src: /tmp/open_ports.txt
+        dest: reports/before/
+        flat: true
+
+    - name: Fetch firewall
+      fetch:
+        src: /tmp/firewall.txt
+        dest: reports/before/
+        flat: true
+
+    - name: Fetch ssh config
+      fetch:
+        src: /tmp/ssh_config.txt
+        dest: reports/before/
+        flat: true
