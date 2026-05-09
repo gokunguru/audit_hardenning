@@ -50,6 +50,20 @@ jobs:
         run: |
           find .
 
+      - name: Generate comparison report
+        run: |
+          python scripts/compare_results.py
+
+      - name: Generate HTML security report
+        run: |
+          python scripts/build_report.py
+
+      - name: Upload generated reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-reports
+          path: reports/final/
+
       - name: Security pipeline completed
         run: |
           echo 'Security pipeline executed successfully.'
