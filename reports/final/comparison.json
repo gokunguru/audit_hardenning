@@ -1,0 +1,14 @@
+{
+  "before": {
+    "root_login_disabled": false,
+    "password_auth_disabled": false,
+    "firewall_active": false,
+    "audit_rules_present": false
+  },
+  "after": {
+    "root_login_disabled": true,
+    "password_auth_disabled": true,
+    "firewall_active": true,
+    "audit_rules_present": true
+  }
+}

@@ -1,0 +1,77 @@
+
+<html>
+<head>
+    <title>Audit Hardening Report</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 40px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #222;
+        }
+
+        .good {
+            color: green;
+            font-weight: bold;
+        }
+
+        .bad {
+            color: red;
+            font-weight: bold;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            background: white;
+        }
+
+        td, th {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Audit & Hardening Report</h1>
+
+<table>
+<tr>
+    <th>Security Control</th>
+    <th>Before</th>
+    <th>After</th>
+</tr>
+
+<tr>
+    <td>Root SSH Login Disabled</td>
+    <td class="bad">False</td>
+    <td class="good">True</td>
+</tr>
+
+<tr>
+    <td>Password Authentication Disabled</td>
+    <td class="bad">False</td>
+    <td class="good">True</td>
+</tr>
+
+<tr>
+    <td>Firewall Active</td>
+    <td class="bad">False</td>
+    <td class="good">True</td>
+</tr>
+
+<tr>
+    <td>Audit Rules Present</td>
+    <td class="bad">False</td>
+    <td class="good">True</td>
+</tr>
+
+</table>
+
+</body>
+</html>
