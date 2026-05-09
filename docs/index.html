@@ -1,11 +1,4 @@
-import json
 
-
-with open("reports/final/comparison.json") as f:
-    data = json.load(f)
-
-
-html = f"""
 <html>
 
 <head>
@@ -14,53 +7,53 @@ html = f"""
 
     <style>
 
-        body {{
+        body {
             font-family: Arial;
             margin: 40px;
             background-color: #f4f4f4;
             color: #222;
-        }}
+        }
 
-        h1 {{
+        h1 {
             color: #111;
-        }}
+        }
 
-        h2 {{
+        h2 {
             margin-top: 40px;
             color: #333;
-        }}
+        }
 
-        .good {{
+        .good {
             color: green;
             font-weight: bold;
-        }}
+        }
 
-        .bad {{
+        .bad {
             color: red;
             font-weight: bold;
-        }}
+        }
 
-        .score {{
+        .score {
             font-size: 24px;
             font-weight: bold;
-        }}
+        }
 
-        table {{
+        table {
             border-collapse: collapse;
             width: 90%;
             background: white;
             margin-top: 20px;
-        }}
+        }
 
-        td, th {{
+        td, th {
             border: 1px solid #ccc;
             padding: 12px;
             text-align: left;
-        }}
+        }
 
-        th {{
+        th {
             background-color: #e8e8e8;
-        }}
+        }
 
     </style>
 
@@ -87,14 +80,14 @@ Docker, Ansible and Lynis.
 <tr>
     <td>Before Hardening</td>
     <td class="bad score">
-        {data['before']['lynis_score']}
+        0
     </td>
 </tr>
 
 <tr>
     <td>After Hardening</td>
     <td class="good score">
-        {data['after']['lynis_score']}
+        54
     </td>
 </tr>
 
@@ -113,40 +106,40 @@ Docker, Ansible and Lynis.
 <tr>
     <td>Root SSH Login Disabled</td>
     <td class="bad">
-        {data['before']['root_login_disabled']}
+        False
     </td>
     <td class="good">
-        {data['after']['root_login_disabled']}
+        True
     </td>
 </tr>
 
 <tr>
     <td>Password Authentication Disabled</td>
     <td class="bad">
-        {data['before']['password_auth_disabled']}
+        False
     </td>
     <td class="good">
-        {data['after']['password_auth_disabled']}
+        True
     </td>
 </tr>
 
 <tr>
     <td>Firewall Active</td>
     <td class="bad">
-        {data['before']['firewall_active']}
+        False
     </td>
     <td class="good">
-        {data['after']['firewall_active']}
+        True
     </td>
 </tr>
 
 <tr>
     <td>Audit Rules Present</td>
     <td class="bad">
-        {data['before']['audit_rules_present']}
+        False
     </td>
     <td class="good">
-        {data['after']['audit_rules_present']}
+        True
     </td>
 </tr>
 
@@ -177,13 +170,3 @@ Docker, Ansible and Lynis.
 </body>
 
 </html>
-"""
-
-
-with open("reports/final/report.html", "w") as f:
-    f.write(html)
-
-with open("docs/index.html", "w") as f:
-    f.write(html)
-
-print("HTML report generated.")
