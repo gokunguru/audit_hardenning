@@ -1,0 +1,22 @@
+---
+- name: Run Lynis audit
+  hosts: linux
+  become: true
+
+  tasks:
+
+    - name: Run Lynis
+      command: lynis audit system --quick --no-colors
+      register: lynis_output
+      changed_when: false
+
+    - name: Save Lynis report
+      copy:
+        content: "{{ lynis_output.stdout }}"
+        dest: /tmp/lynis_report.txt
+
+    - name: Fetch Lynis report
+      fetch:
+        src: /tmp/lynis_report.txt
+        dest: /workspace/reports/final/lynis_report.txt
+        flat: true

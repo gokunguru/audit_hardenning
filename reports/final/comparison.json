@@ -3,12 +3,14 @@
     "root_login_disabled": false,
     "password_auth_disabled": false,
     "firewall_active": false,
-    "audit_rules_present": false
+    "audit_rules_present": false,
+    "lynis_score": 0
   },
   "after": {
     "root_login_disabled": true,
     "password_auth_disabled": true,
     "firewall_active": true,
-    "audit_rules_present": true
+    "audit_rules_present": true,
+    "lynis_score": 54
   }
 }

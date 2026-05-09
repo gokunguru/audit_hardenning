@@ -25,7 +25,8 @@ services:
       systemctl \
       iproute2 \
       ufw \
-      auditd &&
+      auditd \
+      lynis &&
       mkdir /var/run/sshd &&
       echo 'root:rootpass' | chpasswd &&
       echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config &&
