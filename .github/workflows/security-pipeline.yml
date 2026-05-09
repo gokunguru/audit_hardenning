@@ -1,0 +1,52 @@
+name: Security Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+
+jobs:
+
+  lint-and-security:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install ansible ansible-lint
+
+      - name: Lint Ansible playbooks
+        run: |
+          ansible-lint playbooks/
+
+      - name: Validate Python scripts
+        run: |
+          python -m py_compile scripts/*.py
+
+      - name: Validate YAML syntax
+        run: |
+          python -c "
+          import yaml
+          yaml.safe_load(open('docker-compose.yml'))
+          print('docker-compose.yml OK')
+          "
+
+      - name: Display project structure
+        run: |
+          find .
+
+      - name: Security pipeline completed
+        run: |
+          echo 'Security pipeline executed successfully.'
