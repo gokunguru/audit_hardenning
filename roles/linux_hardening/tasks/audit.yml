@@ -1,19 +1,20 @@
 ---
 - name: Install auditd
-  apt:
+  ansible.builtin.apt:
     name: auditd
     state: present
 
 - name: Try to enable auditd
-  systemd:
+  ansible.builtin.systemd:
     name: auditd
     state: started
     enabled: true
   ignore_errors: true
 
 - name: Add audit rules
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/audit/rules.d/hardening.rules
     line: "{{ item }}"
     create: true
-  loop: "{{ audit_rules }}"
+    mode: '0644'
+  loop: "{{ linux_hardening_audit_rules }}"

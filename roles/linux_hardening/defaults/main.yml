@@ -1,16 +1,20 @@
 ---
-ssh_permit_root_login: "no"
-ssh_password_authentication: "no"
-ssh_max_auth_tries: 3
+linux_hardening_ssh_permit_root_login: "no"
+linux_hardening_ssh_password_authentication: "no"
+linux_hardening_ssh_max_auth_tries: 3
 
-linux_allowed_ports:
+linux_hardening_allowed_ports:
   - "22"
 
-unused_services:
+linux_hardening_unused_services:
   - telnet
   - vsftpd
 
-audit_rules:
+linux_hardening_audit_rules:
   - "-w /etc/passwd -p wa -k passwd_changes"
   - "-w /etc/shadow -p wa -k shadow_changes"
   - "-w /etc/ssh/sshd_config -p wa -k ssh_config"
+
+linux_hardening_fail2ban_bantime: 3600
+linux_hardening_fail2ban_findtime: 600
+linux_hardening_fail2ban_maxretry: 3
