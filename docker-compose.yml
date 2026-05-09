@@ -1,0 +1,38 @@
+services:
+  linux-target:
+    image: ubuntu:22.04
+    container_name: linux-target
+    ports:
+      - "2222:22"
+    networks:
+      - audit_lab_net
+    command: >
+      /bin/bash -c "
+      apt-get update -qq &&
+      DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
+      openssh-server telnet vsftpd sudo systemctl &&
+      mkdir /var/run/sshd &&
+      echo 'root:rootpass' | chpasswd &&
+      echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config &&
+      echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config &&
+      service ssh start &&
+      tail -f /dev/null
+      "
+
+  ansible-controller:
+    image: python:3.11-slim
+    container_name: ansible-controller
+    volumes:
+      - ./:/workspace
+    working_dir: /workspace
+    networks:
+      - audit_lab_net
+    command: >
+      /bin/bash -c "
+      pip install -q ansible ansible-lint &&
+      tail -f /dev/null
+      "
+
+networks:
+  audit_lab_net:
+    driver: bridge
