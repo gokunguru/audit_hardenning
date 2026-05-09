@@ -29,7 +29,7 @@ jobs:
 
       - name: Lint Ansible playbooks
         run: |
-          ansible-lint playbooks/
+          ansible-lint .
 
       - name: Validate Python scripts
         run: |

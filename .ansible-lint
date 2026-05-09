@@ -1,0 +1,9 @@
+skip_list:
+  - fqcn
+  - risky-file-permissions
+  - yaml
+  - var-naming
+  - role-name
+  - ignore-errors
+  - name
+  - command-instead-of-module
